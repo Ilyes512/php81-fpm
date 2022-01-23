@@ -3,7 +3,7 @@ version: "3"
 silent: true
 
 vars:
-  DOCKER_REPO: ghrc.io
+  DOCKER_REPO: ghcr.io
   DOCKER_OWNER: ilyes512
   DOCKER_IMAGE_NAME: php81-fpm
   HADOLINT_TAG_VERSION: v2.8.0

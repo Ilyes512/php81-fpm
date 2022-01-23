@@ -7,10 +7,10 @@ A PHP 8.1 (FPM) based Docker base image.
 ## Pulling the images
 
 ```
-docker pull ghrc.io/ilyes512/php81-fpm:runtime-latest
-docker pull ghrc.io/ilyes512/php81-fpm:builder-latest
-docker pull ghrc.io/ilyes512/php81-fpm:builder-nodejs-latest
-docker pull ghrc.io/ilyes512/php81-fpm:vscode-latest
+docker pull ghcr.io/ilyes512/php81-fpm:runtime-latest
+docker pull ghcr.io/ilyes512/php81-fpm:builder-latest
+docker pull ghcr.io/ilyes512/php81-fpm:builder-nodejs-latest
+docker pull ghcr.io/ilyes512/php81-fpm:vscode-latest
 ```
 
 The tag scheme: `{TARGET}-{VERSION}`
@@ -32,25 +32,25 @@ There are 2 targets at the moment:
 Building `runtime`-target:
 
 ```
-docker build --tag ghrc.io/ilyes512/php81-fpm:runtime-latest --target runtime .
+docker build --tag ghcr.io/ilyes512/php81-fpm:runtime-latest --target runtime .
 ```
 
 Building `builder`-target:
 
 ```
-docker build --tag ghrc.io/ilyes512/php81-fpm:builder-latest --target builder .
+docker build --tag ghcr.io/ilyes512/php81-fpm:builder-latest --target builder .
 ```
 
 Building `builder_nodejs`-target:
 
 ```
-docker build --tag ghrc.io/ilyes512/php81-fpm:builder-nodejs-latest --target builder_nodejs .
+docker build --tag ghcr.io/ilyes512/php81-fpm:builder-nodejs-latest --target builder_nodejs .
 ```
 
 Building `vscode`-target:
 
 ```
-docker build --tag ghrc.io/ilyes512/php81-fpm:vscode-latest --target vscode .
+docker build --tag ghcr.io/ilyes512/php81-fpm:vscode-latest --target vscode .
 ```
 
 ## Task commands
