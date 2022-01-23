@@ -1,0 +1,107 @@
+name: Build Images
+
+on:
+  push:
+    branches: [master]
+    tags: ['*']
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build Image
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Debug action
+        uses: hmarr/debug-action@v2
+      - uses: hadolint/hadolint-action@v1.6.0
+      - name: Image name
+        id: image_name
+        uses: ASzc/change-string-case-action@v2
+        with:
+          string: ghcr.io/${{ github.repository }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        if: ${{ !env.ACT }}
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker meta (runtime)
+        id: meta_runtime
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ steps.image_name.outputs.lowercase }}
+          flavor: |
+            prefix=runtime-,onlatest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr,prefix=runtime-pr-
+      - name: Docker meta (builder)
+        id: meta_builder
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ steps.image_name.outputs.lowercase }}
+          flavor: |
+            prefix=builder-,onlatest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr,prefix=builder-pr-
+      - name: Docker meta (builder_nodejs)
+        id: meta_builder_nodejs
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ steps.image_name.outputs.lowercase }}
+          flavor: |
+            prefix=builder_nodejs-,onlatest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr,prefix=builder_nodejs-pr-
+      - name: Docker meta (vscode)
+        id: meta_vscode
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ steps.image_name.outputs.lowercase }}
+          flavor: |
+            prefix=vscode-,onlatest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr,prefix=vscode-pr-
+      - name: Build and push (runtime)
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ !env.ACT }}
+          context: .
+          target: runtime
+          tags: ${{ steps.meta_runtime.outputs.tags }}
+          labels: ${{ steps.meta_runtime.outputs.labels }}
+      - name: Build and push (builder)
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ !env.ACT }}
+          context: .
+          target: builder
+          tags: ${{ steps.meta_builder.outputs.tags }}
+          labels: ${{ steps.meta_builder.outputs.labels }}
+      - name: Build and push (builder_nodejs)
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ !env.ACT }}
+          context: .
+          target: builder_nodejs
+          tags: ${{ steps.meta_builder_nodejs.outputs.tags }}
+          labels: ${{ steps.meta_builder_nodejs.outputs.labels }}
+      - name: Build and push (vscode)
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ !env.ACT }}
+          context: .
+          target: vscode
+          tags: ${{ steps.meta_vscode.outputs.tags }}
+          labels: ${{ steps.meta_vscode.outputs.labels }}

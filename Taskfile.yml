@@ -1,0 +1,72 @@
+version: "3"
+
+silent: true
+
+vars:
+  DOCKER_REPO: ghrc.io
+  DOCKER_OWNER: ilyes512
+  DOCKER_IMAGE_NAME: php81-fpm
+  HADOLINT_TAG_VERSION: v2.8.0
+
+includes:
+  act:
+    taskfile: ./act/Taskfile.yml
+    dir: ./act
+
+tasks:
+
+  build:
+    desc: Build all PHP Docker image targets
+    cmds:
+      - task: build:target
+        vars:
+          TARGET: runtime
+      - task: build:target
+        vars:
+          TARGET: builder
+      - task: build:target
+        vars:
+          TARGET: builder_nodejs
+      - task: build:target
+        vars:
+          TARGET: vscode
+
+  build:target:
+    deps:
+      - task: lint
+    preconditions:
+      - sh: >
+          test '{{.TARGET}}' = 'runtime'
+          -o '{{.TARGET}}' = 'builder'
+          -o '{{.TARGET}}' = 'builder_nodejs'
+          -o '{{.TARGET}}' = 'vscode'
+        msg: TARGET needs to contain the Docker TARGET [runtime, builder, builder_nodejs, vscode]
+    vars:
+      VERSION: '{{.VERSION | default "latest"}}'
+    cmds:
+      - docker build
+        --target {{.TARGET}}
+        --tag {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:{{.TARGET}}-{{.VERSION}}
+        .
+
+  lint:
+    desc: Apply a Dockerfile linter (https://github.com/hadolint/hadolint)
+    cmds:
+      - docker run
+        --interactive
+        --rm
+        --volume $(pwd)/.hadolint.yml:/.hadolint.yml
+        hadolint/hadolint:{{.HADOLINT_TAG_VERSION}}
+        hadolint
+        -
+        < Dockerfile
+
+  shell:
+    desc: Interactive shell
+    interactive: true
+    cmds:
+      - docker run
+        --interactive
+        --tty
+        --rm
+        {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:builder_nodejs-{{.VERSION | default "latest" }}
