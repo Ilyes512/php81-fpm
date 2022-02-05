@@ -1,3 +1,4 @@
+# Latest version of PHP base image: https://hub.docker.com/_/php?tab=tags
 FROM php:8.1.1-fpm-bullseye AS runtime
 
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
