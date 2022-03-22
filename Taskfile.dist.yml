@@ -6,7 +6,7 @@ vars:
   DOCKER_REPO: ghcr.io
   DOCKER_OWNER: ilyes512
   DOCKER_IMAGE_NAME: php81-fpm
-  HADOLINT_TAG_VERSION: v2.8.0
+  HADOLINT_TAG_VERSION: v2.9.2
 
 includes:
   act:
