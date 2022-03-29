@@ -93,7 +93,7 @@ ARG UNIQUE_ID_FOR_CACHEFROM=builder
 ARG PHIVE_VERSION=0.15.1
 # Latest version of Composer: https://getcomposer.org/download
 ARG COMPOSER_VERSION=2.2.9
-# Latest version of Xdebug: https://pecl.php.net/package/xdebug
+# Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
 ARG XDEBUG_VERSION=3.1.3
 
 RUN apt-get update \
