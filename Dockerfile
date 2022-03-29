@@ -90,7 +90,7 @@ FROM runtime AS builder
 ARG UNIQUE_ID_FOR_CACHEFROM=builder
 
 # Latest version of Phive: https://api.github.com/repos/phar-io/phive/releases/latest
-ARG PHIVE_VERSION=0.15.0
+ARG PHIVE_VERSION=0.15.1
 # Latest version of Composer: https://getcomposer.org/download
 ARG COMPOSER_VERSION=2.2.9
 # Latest version of Xdebug: https://pecl.php.net/package/xdebug
