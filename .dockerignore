@@ -1,11 +1,2 @@
-**/.DS_Store
-**/.gitignore
-**/.gitattributes
-**/Taskfile.yml
-**/README.md
-**/.editorconfig
-**/.gitlab-ci.yml
-**/.dockerignore
-.git
-LICENSE
-.actrc
+*
+!/files
