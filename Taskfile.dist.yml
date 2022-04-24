@@ -10,7 +10,7 @@ vars:
 
 includes:
   act:
-    taskfile: ./act/Taskfile.yml
+    taskfile: ./act
     dir: ./act
 
 tasks:
