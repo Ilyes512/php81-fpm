@@ -64,6 +64,7 @@ RUN apt-get update \
         sockets \
     && pecl install "event-$PHP_EVENT_VERSION" \
     && docker-php-ext-enable --ini-name docker-php-ext-zz-event.ini event \
+    && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     # Purge packages that where only needed for building php extensions
     && apt-get purge --assume-yes \
         $PHPIZE_DEPS \
@@ -75,7 +76,6 @@ RUN apt-get update \
         libzip-dev \
         libevent-dev \
         libssl-dev \
-    && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     # Cleanup
     && rm -rf /var/www/* \
     && apt-get autoremove --assume-yes \
@@ -121,8 +121,7 @@ RUN apt-get update \
     && docker-php-ext-enable xdebug \
     && cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     # Cleanup
-    && apt-get purge --assume-yes \
-        $PHPIZE_DEPS \
+    && apt-get purge --assume-yes $PHPIZE_DEPS \
     && apt-get autoremove --assume-yes \
     && apt-get clean --assume-yes \
     && rm -rf /var/lib/apt/lists/* \
