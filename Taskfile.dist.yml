@@ -6,6 +6,7 @@ vars:
   DOCKER_REPO: ghcr.io
   DOCKER_OWNER: ilyes512
   DOCKER_IMAGE_NAME: php81-fpm
+  # Latatest version of Hadolint: https://hub.docker.com/r/hadolint/hadolint/tags or https://github.com/hadolint/hadolint/releases
   HADOLINT_TAG_VERSION: v2.10.0
 
 includes:
