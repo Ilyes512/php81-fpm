@@ -4,7 +4,7 @@ FROM php:8.1.7-fpm-bullseye AS runtime
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
 # Latest version of event-extension: https://pecl.php.net/package/event
-ARG PHP_EVENT_VERSION=3.0.7
+ARG PHP_EVENT_VERSION=3.0.8
 
 ENV SMTPHOST mail
 ENV SMTPEHLO localhost
@@ -92,9 +92,9 @@ ARG UNIQUE_ID_FOR_CACHEFROM=builder
 # Latest version of Phive: https://api.github.com/repos/phar-io/phive/releases/latest
 ARG PHIVE_VERSION=0.15.1
 # Latest version of Composer: https://getcomposer.org/download
-ARG COMPOSER_VERSION=2.3.5
+ARG COMPOSER_VERSION=2.3.7
 # Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
-ARG XDEBUG_VERSION=3.1.4
+ARG XDEBUG_VERSION=3.1.5
 
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
