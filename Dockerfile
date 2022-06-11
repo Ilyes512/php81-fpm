@@ -4,7 +4,7 @@ FROM php:8.1.7-fpm-bullseye AS runtime
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
 # Latest version of event-extension: https://pecl.php.net/package/event
-ARG PHP_EVENT_VERSION=3.0.7
+ARG PHP_EVENT_VERSION=3.0.8
 
 ENV SMTPHOST mail
 ENV SMTPEHLO localhost
