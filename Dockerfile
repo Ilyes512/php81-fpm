@@ -45,6 +45,8 @@ RUN apt-get update \
         # Dependency of PHP event-extension
         libevent-dev \
         libssl-dev \
+        # Dependency of PHP soap-extension
+        libxml2-dev \
     # Configure PHP gd-extension
     && docker-php-ext-configure gd \
         --enable-gd \
@@ -60,6 +62,7 @@ RUN apt-get update \
         gd \
         bcmath \
         zip \
+        soap \
         # Dependency of PHP event-extension
         sockets \
     && pecl install "event-$PHP_EVENT_VERSION" \
@@ -76,6 +79,7 @@ RUN apt-get update \
         libzip-dev \
         libevent-dev \
         libssl-dev \
+        libxml2-dev \
     # Cleanup
     && rm -rf /var/www/* \
     && apt-get autoremove --assume-yes \
