@@ -1,5 +1,5 @@
 # Latest version of PHP base image: https://hub.docker.com/_/php?tab=tags
-FROM php:8.1.8-fpm-bullseye AS runtime
+FROM php:8.1.9-fpm-bullseye AS runtime
 
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
@@ -94,7 +94,7 @@ FROM runtime AS builder
 ARG UNIQUE_ID_FOR_CACHEFROM=builder
 
 # Latest version of Phive: https://api.github.com/repos/phar-io/phive/releases/latest
-ARG PHIVE_VERSION=0.15.1
+ARG PHIVE_VERSION=0.15.2
 # Latest version of Composer: https://getcomposer.org/download
 ARG COMPOSER_VERSION=2.3.10
 # Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
