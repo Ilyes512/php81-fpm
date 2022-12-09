@@ -16,10 +16,10 @@ jobs:
         arch: ['linux/amd64', 'linux/arm64']
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Debug action
         uses: hmarr/debug-action@v2
-      - uses: hadolint/hadolint-action@v2.0.0
+      - uses: hadolint/hadolint-action@v3.0.0
       - name: Image name
         id: image_name
         uses: ASzc/change-string-case-action@v5
@@ -84,7 +84,7 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr,prefix=vscode-pr-
       - name: Build and push (runtime)
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
@@ -93,7 +93,7 @@ jobs:
           tags: ${{ steps.meta_runtime.outputs.tags }}
           labels: ${{ steps.meta_runtime.outputs.labels }}
       - name: Build and push (builder)
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
@@ -102,7 +102,7 @@ jobs:
           tags: ${{ steps.meta_builder.outputs.tags }}
           labels: ${{ steps.meta_builder.outputs.labels }}
       - name: Build and push (builder_nodejs)
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
@@ -111,7 +111,7 @@ jobs:
           tags: ${{ steps.meta_builder_nodejs.outputs.tags }}
           labels: ${{ steps.meta_builder_nodejs.outputs.labels }}
       - name: Build and push (vscode)
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
