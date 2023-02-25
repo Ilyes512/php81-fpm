@@ -33,8 +33,7 @@ tasks:
           TARGET: vscode
 
   build:target:
-    deps:
-      - task: lint
+    deps: [lint]
     preconditions:
       - sh: >
           test '{{.TARGET}}' = 'runtime'
