@@ -87,7 +87,7 @@ jobs:
             type=ref,event=tag
             type=ref,event=pr,prefix=vscode-pr-
       - name: Build and push (runtime)
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
@@ -96,7 +96,7 @@ jobs:
           tags: ${{ steps.meta_runtime.outputs.tags }}
           labels: ${{ steps.meta_runtime.outputs.labels }}
       - name: Build and push (builder)
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
@@ -105,7 +105,7 @@ jobs:
           tags: ${{ steps.meta_builder.outputs.tags }}
           labels: ${{ steps.meta_builder.outputs.labels }}
       - name: Build and push (builder_nodejs)
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
@@ -114,7 +114,7 @@ jobs:
           tags: ${{ steps.meta_builder_nodejs.outputs.tags }}
           labels: ${{ steps.meta_builder_nodejs.outputs.labels }}
       - name: Build and push (vscode)
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: ${{ !(env.ACT || github.actor == 'dependabot[bot]') }}
           context: .
