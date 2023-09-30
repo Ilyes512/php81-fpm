@@ -44,7 +44,7 @@ jobs:
         uses: docker/setup-buildx-action@v2.9.1
       - name: Docker meta (runtime)
         id: meta_runtime
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ steps.image_name.outputs.lowercase }}
           flavor: |
@@ -55,7 +55,7 @@ jobs:
             type=ref,event=pr,prefix=runtime-pr-
       - name: Docker meta (builder)
         id: meta_builder
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ steps.image_name.outputs.lowercase }}
           flavor: |
@@ -66,7 +66,7 @@ jobs:
             type=ref,event=pr,prefix=builder-pr-
       - name: Docker meta (builder_nodejs)
         id: meta_builder_nodejs
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ steps.image_name.outputs.lowercase }}
           flavor: |
@@ -77,7 +77,7 @@ jobs:
             type=ref,event=pr,prefix=builder_nodejs-pr-
       - name: Docker meta (vscode)
         id: meta_vscode
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ steps.image_name.outputs.lowercase }}
           flavor: |
