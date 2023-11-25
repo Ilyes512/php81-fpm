@@ -137,12 +137,19 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG UNIQUE_ID_FOR_CACHEFROM=builder_nodejs
 
+# Latest version of Node.js: https://nodejs.org
+ARG NODE_MAJOR=20
+
 RUN apt-get update \
-    && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install --assume-yes --no-install-recommends \
         gcc \
         g++ \
         make \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
+    && apt-get install --assume-yes --no-install-recommends \
         nodejs \
     && npm -g install npm@latest \
     && apt-get autoremove --assume-yes \
