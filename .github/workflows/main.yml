@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+permissions:
+  actions: write
+  packages: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
