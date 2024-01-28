@@ -4,7 +4,13 @@ FROM php:8.1.27-fpm-bullseye AS runtime
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
 # Latest version of event-extension: https://pecl.php.net/package/event
-ARG PHP_EVENT_VERSION=3.0.8
+ARG PHP_EVENT_VERSION=3.1.2
+# Latest version of igbinary-extension: https://pecl.php.net/package/igbinary
+ARG PHP_IGBINARY_VERSION=3.2.15
+# Latest version of redis-extension: https://pecl.php.net/package/redis
+ARG PHP_REDIS_VERSION=6.0.2
+# Latest version of amqp-extension: https://pecl.php.net/package/amqp
+ARG PHP_AMQP_VERSION=2.1.2
 
 ENV SMTPHOST mail
 ENV SMTPEHLO localhost
@@ -30,6 +36,12 @@ RUN apt-get update \
         libevent-2.1-7 \
         libevent-openssl-2.1-7 \
         libevent-extra-2.1-7 \
+        # Dependency of PHP pdo_pgsql-extension
+        libpq5 \
+        # Dependency of PHP amqp-extension
+        librabbitmq4 \
+        # Dependency of PHP xsl-extension
+        libxslt1.1 \
     # Install packages that are needed for building PHP extensions
     && apt-get install --assume-yes --no-install-recommends \
         $PHPIZE_DEPS \
@@ -47,6 +59,12 @@ RUN apt-get update \
         libssl-dev \
         # Dependency of PHP soap-extension
         libxml2-dev \
+        # Dependency of PHP pdo_pgsql-extension
+        libpq-dev \
+        # Dependency of PHP amqp-extension
+        librabbitmq-dev \
+        # Dependency of PHP xsl-extension
+        libxslt1-dev \
     # Configure PHP gd-extension
     && docker-php-ext-configure gd \
         --enable-gd \
@@ -56,6 +74,7 @@ RUN apt-get update \
     # Install PHP extensions
     && docker-php-ext-install -j "$(nproc --all)" \
         pdo_mysql \
+        pdo_pgsql \
         intl \
         opcache \
         pcntl \
@@ -63,10 +82,19 @@ RUN apt-get update \
         bcmath \
         zip \
         soap \
+        xsl \
         # Dependency of PHP event-extension
         sockets \
     && pecl install "event-$PHP_EVENT_VERSION" \
-    && docker-php-ext-enable --ini-name docker-php-ext-zz-event.ini event \
+    # Optional dependency of PHP redis-extension
+    && pecl install "igbinary-$PHP_IGBINARY_VERSION" \
+    && pecl install --configureoptions 'enable-redis-igbinary="yes"' "redis-$PHP_REDIS_VERSION" \
+    && pecl install "amqp-$PHP_AMQP_VERSION" \
+    && docker-php-ext-enable --ini-name docker-php-ext-zz-custom.ini \
+        event \
+        igbinary \
+        redis \
+        amqp \
     && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
     # Purge packages that where only needed for building php extensions
     && apt-get purge --assume-yes \
@@ -80,6 +108,8 @@ RUN apt-get update \
         libevent-dev \
         libssl-dev \
         libxml2-dev \
+        libpq-dev \
+        librabbitmq-dev \
     # Cleanup
     && rm -rf /var/www/* \
     && apt-get autoremove --assume-yes \
@@ -96,9 +126,9 @@ ARG UNIQUE_ID_FOR_CACHEFROM=builder
 # Latest version of Phive: https://api.github.com/repos/phar-io/phive/releases/latest
 ARG PHIVE_VERSION=0.15.2
 # Latest version of Composer: https://getcomposer.org/download
-ARG COMPOSER_VERSION=2.6.5
+ARG COMPOSER_VERSION=2.6.6
 # Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
-ARG XDEBUG_VERSION=3.2.2
+ARG XDEBUG_VERSION=3.3.1
 
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
