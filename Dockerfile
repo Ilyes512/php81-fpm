@@ -126,7 +126,7 @@ ARG UNIQUE_ID_FOR_CACHEFROM=builder
 # Latest version of Phive: https://api.github.com/repos/phar-io/phive/releases/latest
 ARG PHIVE_VERSION=0.15.2
 # Latest version of Composer: https://getcomposer.org/download
-ARG COMPOSER_VERSION=2.6.6
+ARG COMPOSER_VERSION=2.7.1
 # Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
 ARG XDEBUG_VERSION=3.3.1
 
