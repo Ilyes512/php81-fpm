@@ -187,7 +187,9 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         nodejs \
-    && npm -g install npm@latest \
+    && npm uninstall --global npm \
+    && corepack install --global --all \
+    && corepack enable npm yarn pnpm \
     && apt-get autoremove --assume-yes \
     && apt-get clean --assume-yes \
     && rm -rf /var/lib/apt/lists/* \
