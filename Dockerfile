@@ -4,7 +4,7 @@ FROM php:8.1.27-fpm-bullseye AS runtime
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
 # Latest version of event-extension: https://pecl.php.net/package/event
-ARG PHP_EVENT_VERSION=3.1.2
+ARG PHP_EVENT_VERSION=3.1.3
 # Latest version of igbinary-extension: https://pecl.php.net/package/igbinary
 ARG PHP_IGBINARY_VERSION=3.2.15
 # Latest version of redis-extension: https://pecl.php.net/package/redis
