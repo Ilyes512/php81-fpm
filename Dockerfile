@@ -129,6 +129,8 @@ ARG PHIVE_VERSION=0.15.2
 ARG COMPOSER_VERSION=2.7.1
 # Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
 ARG XDEBUG_VERSION=3.3.1
+# Latest version of pcov: https://github.com/krakjoe/pcov/tags or https://pecl.php.net/package/pcov
+ARG PCOV_VERSION=1.0.11
 
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
@@ -153,6 +155,9 @@ RUN apt-get update \
     # Install Xdebug PHP extension
     && pecl install "xdebug-$XDEBUG_VERSION" \
     && docker-php-ext-enable xdebug \
+    # Install pcov PHP extension
+    && pecl install "pcov-$PCOV_VERSION" \
+    && docker-php-ext-enable pcov \
     && cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     # Cleanup
     && apt-get purge --assume-yes $PHPIZE_DEPS \
