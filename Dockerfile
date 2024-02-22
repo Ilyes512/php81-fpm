@@ -4,7 +4,7 @@ FROM php:8.1.27-fpm-bullseye AS runtime
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
 # Latest version of event-extension: https://pecl.php.net/package/event
-ARG PHP_EVENT_VERSION=3.1.2
+ARG PHP_EVENT_VERSION=3.1.3
 # Latest version of igbinary-extension: https://pecl.php.net/package/igbinary
 ARG PHP_IGBINARY_VERSION=3.2.15
 # Latest version of redis-extension: https://pecl.php.net/package/redis
@@ -126,9 +126,11 @@ ARG UNIQUE_ID_FOR_CACHEFROM=builder
 # Latest version of Phive: https://api.github.com/repos/phar-io/phive/releases/latest
 ARG PHIVE_VERSION=0.15.2
 # Latest version of Composer: https://getcomposer.org/download
-ARG COMPOSER_VERSION=2.6.6
+ARG COMPOSER_VERSION=2.7.1
 # Latest version of Xdebug: https://github.com/xdebug/xdebug/tags or https://pecl.php.net/package/xdebug
 ARG XDEBUG_VERSION=3.3.1
+# Latest version of pcov: https://github.com/krakjoe/pcov/tags or https://pecl.php.net/package/pcov
+ARG PCOV_VERSION=1.0.11
 
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
@@ -138,6 +140,7 @@ RUN apt-get update \
         git \
         unzip \
         sqlite3 \
+        wait-for-it \
         # Needed for phive:
         gnupg \
     # Install Phive
@@ -153,6 +156,9 @@ RUN apt-get update \
     # Install Xdebug PHP extension
     && pecl install "xdebug-$XDEBUG_VERSION" \
     && docker-php-ext-enable xdebug \
+    # Install pcov PHP extension
+    && pecl install "pcov-$PCOV_VERSION" \
+    && docker-php-ext-enable pcov \
     && cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     # Cleanup
     && apt-get purge --assume-yes $PHPIZE_DEPS \
@@ -181,7 +187,9 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
         nodejs \
-    && npm -g install npm@latest \
+    && npm uninstall --global npm \
+    && corepack install --global --all \
+    && corepack enable npm yarn pnpm \
     && apt-get autoremove --assume-yes \
     && apt-get clean --assume-yes \
     && rm -rf /var/lib/apt/lists/* \
