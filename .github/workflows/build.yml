@@ -52,7 +52,7 @@ jobs:
             platforms: ${{ inputs.arch }}
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v3.0.0
+        uses: docker/setup-buildx-action@v3.1.0
       - name: Docker meta (runtime)
         id: meta_runtime
         uses: docker/metadata-action@v5
